@@ -81,12 +81,12 @@ public class BoardController {
 	}
 
 	// 수정
-	@RequestMapping(value="/board/modify", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/board/modify", method = { RequestMethod.GET, RequestMethod.POST })
 	public String boardModify(@ModelAttribute BoardVo boardVo) {
 		System.out.println("BoardController.boardModify()");
-		
+
 		int count = boardService.exeModify(boardVo);
-		
+
 		if (count == 1) {
 			return "redirect:/board/list";
 		} else {
@@ -94,4 +94,16 @@ public class BoardController {
 			return "redirect:/main";
 		}
 	}
+
+	// 검색
+	@RequestMapping(value = "/board/searchlist", method = { RequestMethod.GET, RequestMethod.POST })
+	public String boardSearch(@RequestParam(value = "search") String search, Model model) {
+		System.out.println("BoardController.boardSearch()");
+
+		List<BoardVo> boardList = boardService.exeSearch(search);
+		model.addAttribute("boardList", boardList);
+		
+		return "/board/list";
+	}
+
 }

@@ -15,11 +15,22 @@ public class BoardVo {
 	
 	private String name;
 	
+	private String search;
+	
 	//생성자
 	public BoardVo() {
 		super();
 	}
 	
+	
+
+	public BoardVo(String title, String name) {
+		super();
+		this.title = title;
+		this.name = name;
+	}
+
+
 
 	public BoardVo(int no, int userNo, String title, String content) {
 		super();
@@ -161,6 +172,20 @@ public class BoardVo {
 		this.name = name;
 	}
 	
+	
+	
+	public String getSearch() {
+		return search;
+	}
+
+
+
+	public void setSearch(String search) {
+		this.search = search;
+	}
+
+
+
 	//메소드 - 일반
 	@Override
 	public String toString() {

@@ -37,7 +37,7 @@
 	<!-- read: 한 명 정보 가져오기 -->
 	<select id="selectOne" parameterType="int" resultType="com.javaex.vo.BoardVo">
 		<![CDATA[
-			select title, u.name, hit + 1, b.reg_date as regDate, content
+			select title, u.name, hit, b.reg_date as regDate, content
 			from rboard b  join users u
 			on b.user_no = u.no
 			where b.no = #{no};
@@ -52,6 +52,31 @@
 				 content = #{content}
 			where no = #{no}
 			and user_no = #{userNo}
+		]]>
+	</update>
+	
+	<!-- 검색 리스트 -->
+	<select id="search" resultType="com.javaex.vo.BoardVo" parameterType="String">
+		<![CDATA[
+			select b.no,
+					  title,
+			    	  u.name,
+					  hit,
+				      b.reg_date as regDate,
+					  content
+			from rboard b
+			join users u on b.user_no = u.no
+			where title like concat('%', #{search}, '%')
+			or name like concat('%', #{search}, '%')
+		]]>
+	</select>
+	
+	<!-- 조회수 업데이트 -->
+	<update id="updateHit" parameterType="int">
+		<![CDATA[
+			update rboard 
+			set hit = hit + 1
+			where no = #{no}
 		]]>
 	</update>
 

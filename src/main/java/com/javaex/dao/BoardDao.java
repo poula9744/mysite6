@@ -36,7 +36,7 @@ public class BoardDao {
 	
 	//read
 	public BoardVo boardSelectOne(int no) {
-		
+		sqlSession.update("board.updateHit", no);
 		return sqlSession.selectOne("board.selectOne", no);
 	}
 	
@@ -44,6 +44,14 @@ public class BoardDao {
 	public int boardModify(BoardVo boardVo) {
 		
 		return sqlSession.update("board.modify", boardVo);
+	}
+	
+	//검색
+	public List<BoardVo> searchList(String search){
+		System.out.println("BoardDao.searchList()");
+		List<BoardVo> boardList = sqlSession.selectList("board.search", search);
+		System.out.println(boardList);
+		return boardList;
 	}
 	
 }

@@ -55,5 +55,14 @@ public class BoardService {
 		return count;
 	}
 	
+	//검색
+	public List<BoardVo> exeSearch(String search) {
+		System.out.println("BoardService.exeSearch()");
+		
+		List<BoardVo> boardList = boardDao.searchList(search);
+		
+		return boardList;
+	}
+	
 	
 }
