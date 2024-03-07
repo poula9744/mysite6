@@ -79,5 +79,45 @@
 			where no = #{no}
 		]]>
 	</update>
+	
+	
+	
+	<!-- 댓글 -->
+	<!-- 댓글 전체 리스트 -->
+	<select id="commentSelect" resultType="com.javaex.vo.BoardVo">
+		<![CDATA[
+			select c.no,
+					  title,
+			    	  u.name,
+					  hit,
+				      c.reg_date as regDate,
+					  content,
+					  group_no,
+					  order_no
+			from cboard c, users u
+			where c.user_no = u.no
+			order by group_no DESC, order_no ASC
+		]]>
+	</select>
+	
+	<!-- 등록1 -->
+	<insert id="commentInsert" parameterType="com.javaex.vo.BoardVo">
+	<![CDATA[
+			insert into cboard
+			values(null, #{userNo}, #{title}, #{content}, 0, now(), 1, 1, 0)
+		]]>
+	</insert>
+	<!-- 등록2 -->
+	<insert id="commentInsert2" parameterType="com.javaex.vo.BoardVo">
+	<![CDATA[
+			update cboard 
+			set group_no = #{no}
+			where no = #{no}
+		]]>
+	</insert>
+	
+	
+	
+	
 
 </mapper>

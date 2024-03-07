@@ -19,6 +19,9 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 
+	//////////////////////////////////////////
+	// 일반게시판 //
+	//////////////////////////////////////////
 	// 게시판 리스트
 	@RequestMapping(value = "/board/list", method = { RequestMethod.GET, RequestMethod.POST })
 	public String boardList(Model model) {
@@ -102,8 +105,40 @@ public class BoardController {
 
 		List<BoardVo> boardList = boardService.exeSearch(search);
 		model.addAttribute("boardList", boardList);
-		
+
 		return "/board/list";
 	}
 
+	//////////////////////////////////////////
+	// 댓글게시판 //
+	//////////////////////////////////////////
+	// 댓글 list
+	// 게시판 리스트
+	@RequestMapping(value = "/board/commentlist", method = { RequestMethod.GET, RequestMethod.POST })
+	public String commentList(Model model) {
+		System.out.println("BoardController.commentList()");
+
+		List<BoardVo> commentList = boardService.exeCommentList();
+		model.addAttribute("commentList", commentList);
+
+		return "/board/commentList";
+	}
+
+	// 등록폼
+	@RequestMapping(value = "/board/commentwriteform", method = { RequestMethod.GET, RequestMethod.POST })
+	public String commentWriteForm() {
+		System.out.println("BoardController.boardWriteForm()");
+
+		return "/board/commentWriteForm";
+	}
+
+	// 등록
+	@RequestMapping(value = "/board/commentwrite", method = { RequestMethod.GET, RequestMethod.POST })
+	public String commentWrite(@ModelAttribute BoardVo boardVo) {
+		System.out.println("BoardController.boardWrite()");
+
+		boardService.exeCommentInsert(boardVo);
+
+		return "redirect:/board/commentlist";
+	}
 }

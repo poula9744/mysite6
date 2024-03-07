@@ -32,12 +32,12 @@
 			<div id="content">
 
 				<div id="content-head">
-					<h3>일반게시판</h3>
+					<h3>댓글게시판</h3>
 					<div id="location">
 						<ul>
 							<li>홈</li>
 							<li>게시판</li>
-							<li class="last">일반게시판</li>
+							<li class="last">댓글게시판</li>
 						</ul>
 					</div>
 					<div class="clear"></div>
@@ -64,7 +64,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${requestScope.boardList}" var="boardVo">
+								<c:forEach items="${requestScope.commentList}" var="boardVo">
 									<tr>
 										<td>${boardVo.no}</td>
 										<td class="text-left"><a href="${pageContext.request.contextPath}/board/read?no=${boardVo.no}">${boardVo.title}</a></td>
@@ -96,7 +96,7 @@
 							
 							<div class="clear"></div>
 						</div>
-						<a id="btn_write" href="${pageContext.request.contextPath}/board/writeform">글쓰기</a>
+						<a id="btn_write" href="${pageContext.request.contextPath}/board/commentwriteform">글쓰기</a>
 					
 					</div>
 					<!-- //list -->
