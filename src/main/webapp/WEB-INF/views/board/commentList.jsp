@@ -64,14 +64,14 @@
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${requestScope.commentList}" var="boardVo">
+								<c:forEach items="${requestScope.commentList}" var="commentVo">
 									<tr>
-										<td>${boardVo.no}</td>
-										<td class="text-left"><a href="${pageContext.request.contextPath}/board/read?no=${boardVo.no}">${boardVo.title}</a></td>
-										<td>${boardVo.name}</td>
-										<td>${boardVo.hit}</td>
-										<td>${boardVo.regDate}</td>
-										<td><a href="${pageContext.request.contextPath}/board/delete?no=${boardVo.no}&userNo=${sessionScope.authUser.no}">[삭제]</a></td>
+										<td>${commentVo.no}</td>
+										<td class="text-left"><a href="${pageContext.request.contextPath}/board/commentread?no=${commentVo.no}">${commentVo.title}</a></td>
+										<td>${commentVo.name}</td>
+										<td>${commentVo.hit}</td>
+										<td>${commentVo.regDate}</td>
+										<td><a href="${pageContext.request.contextPath}/board/commentdelete?no=${commentVo.no}&userNo=${sessionScope.authUser.no}">[삭제]</a></td>
 									</tr>
 								</c:forEach>
 							</tbody>

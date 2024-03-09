@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,38 +45,53 @@
 				<!-- //content-head -->
 	
 				<div id="board">
-					<div id="writeForm">
-						<form action="${pageContext.request.contextPath}/board/commentwrite" method="get">
+					<div id="read">
+						<form action="${pageContext.request.contextPath}/board/commentread?no=${commentVo.no}" method="get">
+							<!-- 작성자 -->
+							<div class="form-group">
+								<span class="form-text">작성자</span>
+								<span class="form-value">${commentVo.name}</span>
+							</div>
+							
+							<!-- 조회수 -->
+							<div class="form-group">
+								<span class="form-text">조회수</span>
+								<span class="form-value">${commentVo.hit}</span>
+							</div>
+							
+							<!-- 작성일 -->
+							<div class="form-group">
+								<span class="form-text">작성일</span>
+								<span class="form-value">${commentVo.regDate}</span>
+							</div>
+							
 							<!-- 제목 -->
 							<div class="form-group">
-								<label class="form-text" for="txt-title">제목</label>
-								<input type="text" id="txt-title" name="title" value="${BoardVo.title}" placeholder="제목을 입력해 주세요">
+								<span class="form-text">제 목</span>
+								<span class="form-value">${commentVo.title}</span>
 							</div>
 						
 							<!-- 내용 -->
-							<div class="form-group">
-								<textarea id="txt-content" name="content">${BoardVo.content}</textarea>
+							<div id="txt-content">
+								<span class="form-value" >
+									${commentVo.content} 
+								</span>
 							</div>
 							
-							<!-- 작가 -->
-							<input type="text" name="userNo" value="${sessionScope.authUser.no}">
-							
-							<a id="btn_cancel" href="${pageContext.request.contextPath}/board/commentlist">취소</a>
-							<button id="btn_add" type="submit" >등록</button>
+							<a id="btn_modify" href="${pageContext.request.contextPath}/board/commentmodifyform?no=${param.no}">수정</a>
+							<a id="btn_modify" href="${pageContext.request.contextPath}/board/commentlist">목록</a>
 							
 						</form>
 						<!-- //form -->
 					</div>
-					<!-- //writeForm -->
+					<!-- //read -->
 				</div>
 				<!-- //board -->
 			</div>
 			<!-- //content  -->
 
-
 		</div>
 		<!-- //container  -->
-
 
 		<!-- footer -->
 		<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>

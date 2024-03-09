@@ -134,11 +134,48 @@ public class BoardController {
 
 	// 등록
 	@RequestMapping(value = "/board/commentwrite", method = { RequestMethod.GET, RequestMethod.POST })
-	public String commentWrite(@ModelAttribute BoardVo boardVo) {
+	public String commentWrite(@ModelAttribute BoardVo commentVo) {
 		System.out.println("BoardController.boardWrite()");
 
-		boardService.exeCommentInsert(boardVo);
+		boardService.exeCommentInsert(commentVo);
 
 		return "redirect:/board/commentlist";
+	}
+
+	// 댓글 read
+	@RequestMapping(value = "/board/commentread", method = { RequestMethod.GET, RequestMethod.POST })
+	public String commentRead(@RequestParam(value = "no") int no, Model model) {
+		System.out.println("BoardController.commentread()");
+		System.out.println(no);
+		BoardVo commentVo = boardService.exeCommentSelectOne(no);
+		model.addAttribute("commentVo", commentVo);
+		System.out.println(commentVo);
+		return "/board/commentRead";
+	}
+
+	// 수정폼
+	@RequestMapping(value = "/board/commentmodifyform", method = { RequestMethod.GET, RequestMethod.POST })
+	public String commentModifyForm(@RequestParam(value = "no") int no, Model model) {
+		System.out.println("BoardController.commentboardModifyForm()");
+
+		BoardVo commentVo = boardService.exeCommentSelectOne(no);
+		model.addAttribute("commentVo", commentVo);
+		
+		return "/board/modifyForm";
+	}
+
+	// 수정
+	@RequestMapping(value = "/board/commentmodify", method = { RequestMethod.GET, RequestMethod.POST })
+	public String commentBoardModify(@ModelAttribute BoardVo commentVo) {
+		System.out.println("BoardController.commentBoardModify()");
+
+		int count = boardService.exeCommentModify(commentVo);
+
+		if (count == 1) {
+			return "redirect:/board/commentlist";
+		} else {
+			System.out.println("수정 실패");
+			return "redirect:/main";
+		}
 	}
 }

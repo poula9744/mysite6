@@ -80,9 +80,25 @@ public class BoardService {
 	}
 
 	// 등록
-	public int exeCommentInsert(BoardVo boardVo) {
+	public int exeCommentInsert(BoardVo commentVo) {
 		System.out.println("BoardService.exeCommentInsert()");
 
-		return boardDao.commentInsert(boardVo);
+		return boardDao.commentInsert(commentVo);
+	}
+
+	// read
+	public BoardVo exeCommentSelectOne(int no) {
+			System.out.println("BoardService.exeSelectOne()");
+
+			return boardDao.commentSelectOne(no);
+		}
+
+	// 수정
+	public int exeCommentModify(BoardVo commentVo) {
+		System.out.println("BoardService.exeCommentModify()");
+
+		int count = boardDao.commentModify(commentVo);
+
+		return count;
 	}
 }

@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,36 +41,56 @@
 					<div class="clear"></div>
 				</div>
 				<!-- //content-head -->
-	
+
 				<div id="board">
-					<div id="writeForm">
-						<form action="${pageContext.request.contextPath}/board/commentwrite" method="get">
+					<div id="modifyForm">
+						<form action="${pageContext.request.contextPath}/board/commentmodify" method="get">
+							<!-- 고유번호 -->
+							<input type="hidden" name="no" value="${param.no}">
+							
+							<!-- 작성자 -->
+							<div class="form-group">
+								<span class="form-text">작성자</span> <span class="form-value">${commentVo.name}</span>
+							</div>
+							<!-- 작성자 고유번호 -->
+							<input type="text" name="userNo" value="${sessionScope.authUser.no}">
+
+							<!-- 조회수 -->
+							<div class="form-group">
+								<span class="form-text">조회수</span> <span class="form-value">${commentVo.hit}</span>
+							</div>
+
+							<!-- 작성일 -->
+							<div class="form-group">
+								<span class="form-text">작성일</span> <span class="form-value">${commentVo.regDate}</span>
+							</div>
+
 							<!-- 제목 -->
 							<div class="form-group">
-								<label class="form-text" for="txt-title">제목</label>
-								<input type="text" id="txt-title" name="title" value="${BoardVo.title}" placeholder="제목을 입력해 주세요">
+								<label class="form-text" for="txt-title">제목</label> <input type="text" id="txt-title" name="title"
+									value="${commentVo.title}">
 							</div>
-						
+
+
+
 							<!-- 내용 -->
 							<div class="form-group">
-								<textarea id="txt-content" name="content">${BoardVo.content}</textarea>
+								<textarea id="txt-content" name="content">
+									${commnetVo.content}
+								</textarea>
 							</div>
-							
-							<!-- 작가 -->
-							<input type="text" name="userNo" value="${sessionScope.authUser.no}">
-							
-							<a id="btn_cancel" href="${pageContext.request.contextPath}/board/commentlist">취소</a>
-							<button id="btn_add" type="submit" >등록</button>
-							
+
+							<a id="btn_cancel" href="${pageContext.request.contextPath}/board/list">취소</a>
+							<button id="btn_modify" type="submit">수정</button>
+
 						</form>
 						<!-- //form -->
 					</div>
-					<!-- //writeForm -->
+					<!-- //modifyForm -->
 				</div>
 				<!-- //board -->
 			</div>
 			<!-- //content  -->
-
 
 		</div>
 		<!-- //container  -->

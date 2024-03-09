@@ -100,23 +100,45 @@
 		]]>
 	</select>
 	
-	<!-- 등록1 -->
+	<!-- 1번째 댓글 등록 -->
 	<insert id="commentInsert" parameterType="com.javaex.vo.BoardVo">
 	<![CDATA[
 			insert into cboard
 			values(null, #{userNo}, #{title}, #{content}, 0, now(), 1, 1, 0)
 		]]>
 	</insert>
-	<!-- 등록2 -->
-	<insert id="commentInsert2" parameterType="com.javaex.vo.BoardVo">
-	<![CDATA[
+
+	<!-- 댓글 등록 -->
+	
+	<!-- read: 한 명 정보 가져오기 -->
+	<select id="commentSelectOne" parameterType="int" resultType="com.javaex.vo.BoardVo">
+		<![CDATA[
+			select title, u.name, hit, c.reg_date as regDate, content
+			from cboard c  join users u
+			on c.user_no = u.no
+			where c.no = #{no};
+		]]>
+	</select>
+	
+	<!-- 댓글 수정 -->
+	<update id="commentModify" parameterType="com.javaex.vo.BoardVo">
+		<![CDATA[
+			update cboard
+			set title = #{title},
+				 content = #{content}
+			where no = #{no}
+			and user_no = #{userNo}
+		]]>
+	</update>
+	
+	<!-- 조회수 업데이트 -->
+	<update id="commentUpdateHit" parameterType="int">
+		<![CDATA[
 			update cboard 
-			set group_no = #{no}
+			set hit = hit + 1
 			where no = #{no}
 		]]>
-	</insert>
-	
-	
+	</update>
 	
 	
 

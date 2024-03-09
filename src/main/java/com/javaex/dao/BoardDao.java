@@ -71,16 +71,22 @@ public class BoardDao {
 	}
 
 	// 등록
-	public int commentInsert(BoardVo boardVo) {
-		int count = sqlSession.update("board.commentInsert2", sqlSession.insert("board.commentInsert", boardVo));
+	public int commentInsert(BoardVo commentVo) {
+		int count = sqlSession.insert("board.commentInsert", commentVo);
 		System.out.println(count);
 		return count;
 	}
 
-	// 등록 2
-	public int commentInsert2(BoardVo boardVo) {
+	// read
+	public BoardVo commentSelectOne(int no) {
+		sqlSession.update("board.commentUpdateHit", no);
+		return sqlSession.selectOne("board.commentSelectOne", no);
+	}
 
-		return sqlSession.update("board.commentSelect2", boardVo);
+	// 수정
+	public int commentModify(BoardVo commentVo) {
+
+		return sqlSession.update("board.commentModify", commentVo);
 	}
 
 }
