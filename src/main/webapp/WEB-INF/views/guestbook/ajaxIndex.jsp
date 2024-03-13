@@ -135,7 +135,6 @@ document.addEventListener("DOMContentLoaded", function(){
 		}
 		
 		
-		
 	})
 
 	.catch(function (error) {
@@ -153,7 +152,7 @@ function render(guestbookVo){
 	
 	let guestbookListArea = document.querySelector("#guestbookListArea");
 	console.log(guestbookListArea);	
-		
+
 	
 	
 	let str = '';
