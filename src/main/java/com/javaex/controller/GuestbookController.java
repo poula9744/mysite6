@@ -63,7 +63,7 @@ public class GuestbookController {
 	//ajax 방명록 메인
 	@RequestMapping(value="/guestbook/ajaxindex", method = { RequestMethod.GET, RequestMethod.POST })
 	public String ajaxIndex() {
-		System.out.println("GuestbookController.ajaxIndex())");
+		System.out.println("GuestbookController.ajaxIndex()");
 		
 		
 		return "/guestbook/ajaxIndex";
