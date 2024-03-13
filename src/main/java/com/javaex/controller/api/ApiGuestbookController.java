@@ -20,7 +20,7 @@ public class ApiGuestbookController {
 	@ResponseBody  //return의 데이터를 json으로 변경해서 응답문서(response)의 Body에 붙여서 보내줘
 	@RequestMapping(value="/api/guestbooks", method = RequestMethod.GET )
 	public List<GuestbookVo> list() {
-		System.out.println("ApiGuestbookController.list()");
+		System.out.println("ApiGuestbookController.list()s");
 		
 		List<GuestbookVo> guestbookList = guestbookService.exeList();
 		System.out.println(guestbookList);
