@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,7 +34,7 @@ public class ApiGuestbookController {
 	//등록
 	@ResponseBody
 	@RequestMapping(value="/api/guestbooks", method = RequestMethod.POST)
-	public GuestbookVo add(@ModelAttribute GuestbookVo guestbookVo) {
+	public GuestbookVo add(@RequestBody GuestbookVo guestbookVo) {
 		System.out.println("ApiGuestbookController.add()");
 
 		
@@ -44,13 +46,14 @@ public class ApiGuestbookController {
 	
 	//삭제
 	@ResponseBody
-	@RequestMapping(value="/api/guestbooks/delete", method = RequestMethod.POST)
-	public int delete(@ModelAttribute GuestbookVo guestbookVo) {
+	@RequestMapping(value="/api/guestbooks/{no}", method = RequestMethod.DELETE)
+	public int delete(@PathVariable("no") int no, @ModelAttribute GuestbookVo guestbookVo) {
 		System.out.println("ApiGuestbookController.delete()");
+		System.out.println(no);
 		System.out.println(guestbookVo);
-		guestbookService.exeDeleteandGuest(guestbookVo);
+		int count = guestbookService.exeDeleteandGuest(guestbookVo);
 		
-		return 1;
+		return count;
 	}
 	
 }
