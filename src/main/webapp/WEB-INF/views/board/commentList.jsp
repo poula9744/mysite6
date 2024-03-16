@@ -8,7 +8,8 @@
 <title>Insert title here</title>
 <link href="${pageContext.request.contextPath}/assets/css/mysite.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/assets/css/board.css" rel="stylesheet" type="text/css">
-
+<!-- Axios 라이브러리 포함(원래는 아래에 씀) -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
 
@@ -52,7 +53,8 @@
 								<button type="submit" id=btn_search>검색</button>
 							</div>
 						</form>
-						<table >
+						
+					<table>
 							<thead>
 								<tr>
 									<th>번호</th>
@@ -63,20 +65,10 @@
 									<th>관리</th>
 								</tr>
 							</thead>
-							<tbody>
-								<c:forEach items="${requestScope.commentList}" var="commentVo">
-									<tr>
-										<td>${commentVo.no}</td>
-										<td class="text-left"><a href="${pageContext.request.contextPath}/board/commentread?no=${commentVo.no}">${commentVo.title}</a></td>
-										<td>${commentVo.name}</td>
-										<td>${commentVo.hit}</td>
-										<td>${commentVo.regDate}</td>
-										<td><a href="${pageContext.request.contextPath}/board/commentdelete?no=${commentVo.no}&userNo=${sessionScope.authUser.no}">[삭제]</a></td>
-									</tr>
-								</c:forEach>
+							<tbody id="boardListArea">
+									<!-- 방명록 글 리스트 -->
 							</tbody>
-						</table>
-			
+					</table>
 						<div id="paging">
 							<ul>
 								<li><a href="">◀</a></li>
@@ -116,5 +108,70 @@
 	<!-- //wrap -->
 
 </body>
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+	
+	//리스트요청
+	getListAndRender();	
+	
+	
+	
+});//document.addEventListener
+
+//////////////////////////////////////////////////////////////////////
+///////////////////////////함수들////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//리스트 가져오기 --> 그리기
+function getListAndRender(){
+	axios({
+		method: 'get', // put, post, delete
+		url: '/mysite6/api/board/comments',   //(데이터만 오는 친구들은 api를 붙일거임)
+		headers: {"Content-Type" : "application/json; charset=utf-8"}, //전송타입
+		//params: boardVo, //get방식 파라미터로 값이 전달
+		//data: boardVo, //put, post, delete 방식 자동으로 JSON으로 변환 전달
+		responseType: 'json' //수신타입
+	})
+
+	.then(function (response) {
+		console.log(response.data); //수신데이타
+		
+		//리스트자리에 
+		//글을 하나씩 추가한다
+		for(let i=0; i<response.data.length; i++){
+			let boardVo = response.data[i];
+			render(boardVo, "up"); //1개의 글을 render()에게 전달 --> render() 리스트위치에 그린다
+		}
+	})
+	.catch(function (error) {
+		console.log(error);
+	});
+}
+
+function render(boardVo, dir){
+	console.log("render()");
+	console.log(boardVo);
+	
+	let boardListArea = document.querySelector("#boardListArea");
+	console.log(boardListArea);	
+	
+	let str = '';
+	str += '		<tr>';
+	str += '			<td>'+boardVo.no+'</td>';
+	str += '			<td class="text-left"><a href="${pageContext.request.contextPath}/board/commentread?no='+boardVo.no+'">'+boardVo.title+'</a></td>';
+	str += '			<td>'+boardVo.name+'</td>';
+	str += '			<td>'+boardVo.hit+'</td>';
+	str += '			<td>'+boardVo.regDate+'</td>';
+	str += '			<td><a href="${pageContext.request.contextPath}/board/commentdelete?no=${commentVo.no}&userNo=${sessionScope.authUser.no}">[삭제]</a></td>';
+	str += '		</tr>';
+	
+
+	if(dir == "down"){
+		boardListArea.insertAdjacentHTML("beforeend", str);
+	} else if(dir == "up"){
+		boardListArea.insertAdjacentHTML("afterbegin", str);
+	}
+}
+
+</script>
 
 </html>

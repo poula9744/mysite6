@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.javaex.service.BoardService;
 import com.javaex.vo.BoardVo;
@@ -114,7 +115,9 @@ public class BoardController {
 	//////////////////////////////////////////
 	// 댓글 list
 	// 게시판 리스트
-	@RequestMapping(value = "/board/commentlist", method = { RequestMethod.GET, RequestMethod.POST })
+	/*
+	@ResponseBody
+	@RequestMapping(value = "/board/commentlist", method = RequestMethod.GET )
 	public String commentList(Model model) {
 		System.out.println("BoardController.commentList()");
 
@@ -123,6 +126,7 @@ public class BoardController {
 
 		return "/board/commentList";
 	}
+	*/
 
 	// 등록폼
 	@RequestMapping(value = "/board/commentwriteform", method = { RequestMethod.GET, RequestMethod.POST })
@@ -132,7 +136,7 @@ public class BoardController {
 		return "/board/commentWriteForm";
 	}
 
-	// 등록
+	// 첫 게시물 등록
 	@RequestMapping(value = "/board/commentwrite", method = { RequestMethod.GET, RequestMethod.POST })
 	public String commentWrite(@ModelAttribute BoardVo commentVo) {
 		System.out.println("BoardController.boardWrite()");

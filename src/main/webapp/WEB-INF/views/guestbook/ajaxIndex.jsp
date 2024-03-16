@@ -196,7 +196,7 @@ document.addEventListener("DOMContentLoaded", function(){
 function getListAndRender(){
 	axios({
 		method: 'get', // put, post, delete
-		url: '/mysite6/api/guestbooks',   //(데이터만 오는 친구들은 api를 붙일거임)
+		url: '${pageContext.request.contextPath}/api/guestbooks',   //(데이터만 오는 친구들은 api를 붙일거임)
 		headers: {"Content-Type" : "application/json; charset=utf-8"}, //전송타입
 		//params: guestbookVo, //get방식 파라미터로 값이 전달
 		//data: guestbookVo, //put, post, delete 방식 자동으로 JSON으로 변환 전달
@@ -245,7 +245,7 @@ function addAndRender(event){
 	//서버로 데이터 전송
 	axios({
 		method: 'post', // put, post, delete
-		url: '/mysite6/api/guestbooks',
+		url: '${pageContext.request.contextPath}/api/guestbooks',
 		headers: {"Content-Type" : "application/json; charset=utf-8"}, //전송타입
 		//params: guestVo, //get방식 파라미터로 값이 전달
 		data: guestVo, //put, post, delete 방식 자동으로 JSON으로 변환 전달
@@ -284,7 +284,7 @@ function deleteAndRemove(){
 	//서버로 데이터 전송
 	axios({
 		method: 'delete', // put, post, delete
-		url: '/mysite6/api/guestbooks/'+no,
+		url: '${pageContext.request.contextPath}/api/guestbooks/'+no,
 		headers: {"Content-Type" : "application/json; charset=utf-8"}, //전송타입
 		params: guestVo, //get방식 파라미터로 값이 전달
 		//data: guestbookVo, //put, post, delete 방식 자동으로 JSON으로 변환 전달
@@ -312,8 +312,8 @@ function deleteAndRemove(){
 
 //방명록 글 그리기
 function render(guestbookVo, dir){
-	console.log("render()");
-	console.log(guestbookVo);
+	//console.log("render()");
+	//console.log(guestbookVo);
 	
 	let guestbookListArea = document.querySelector("#guestbookListArea");
 	console.log(guestbookListArea);	

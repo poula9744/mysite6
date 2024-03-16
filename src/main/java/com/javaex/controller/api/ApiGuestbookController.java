@@ -49,8 +49,7 @@ public class ApiGuestbookController {
 	@RequestMapping(value="/api/guestbooks/{no}", method = RequestMethod.DELETE)
 	public int delete(@PathVariable("no") int no, @ModelAttribute GuestbookVo guestbookVo) {
 		System.out.println("ApiGuestbookController.delete()");
-		System.out.println(no);
-		System.out.println(guestbookVo);
+
 		int count = guestbookService.exeDeleteandGuest(guestbookVo);
 		
 		return count;

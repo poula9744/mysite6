@@ -9,6 +9,9 @@
 <link href="${pageContext.request.contextPath}/assets/css/mysite.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/assets/css/board.css" rel="stylesheet" type="text/css">
 
+
+<!-- Axios 라이브러리 포함(원래는 아래에 씀) -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
 
@@ -16,7 +19,7 @@
 	<div id="wrap">
 
 		<!-- header -->
-		<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
 		<!-- /header -->
 
 		<div id="container" class="clearfix">
@@ -43,50 +46,10 @@
 					<div class="clear"></div>
 				</div>
 				<!-- //content-head -->
-	
-				<div id="board">
-					<div id="read">
-						<form action="${pageContext.request.contextPath}/board/commentread?no=${commentVo.no}" method="get">
-							<!-- 작성자 -->
-							<div class="form-group">
-								<span class="form-text">작성자</span>
-								<span class="form-value">${commentVo.name}</span>
-							</div>
-							
-							<!-- 조회수 -->
-							<div class="form-group">
-								<span class="form-text">조회수</span>
-								<span class="form-value">${commentVo.hit}</span>
-							</div>
-							
-							<!-- 작성일 -->
-							<div class="form-group">
-								<span class="form-text">작성일</span>
-								<span class="form-value">${commentVo.regDate}</span>
-							</div>
-							
-							<!-- 제목 -->
-							<div class="form-group">
-								<span class="form-text">제 목</span>
-								<span class="form-value">${commentVo.title}</span>
-							</div>
-						
-							<!-- 내용 -->
-							<div id="txt-content">
-								<span class="form-value" >
-									${commentVo.content} 
-								</span>
-							</div>
-							
-							<a id="btn_modify" href="${pageContext.request.contextPath}/board/commentmodifyform?no=${param.no}">수정</a>
-							<a id="btn_modify" href="${pageContext.request.contextPath}/board/commentlist">목록</a>
-							
-						</form>
-						<!-- //form -->
-					</div>
-					<!-- //read -->
-				</div>
-				<!-- //board -->
+				
+				
+
+				
 			</div>
 			<!-- //content  -->
 
@@ -94,11 +57,12 @@
 		<!-- //container  -->
 
 		<!-- footer -->
-		<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
 		<!-- //footer -->
 	</div>
 	<!-- //wrap -->
 
 </body>
+
 
 </html>
