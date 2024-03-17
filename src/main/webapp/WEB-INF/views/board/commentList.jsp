@@ -114,6 +114,9 @@ document.addEventListener("DOMContentLoaded", function(){
 	//리스트요청
 	getListAndRender();	
 	
+	//제목을 클릭했을 때 --> commentRead를 불러옴
+	let clickTitle = document.querySelector(".text-left");
+	clickTitle.addEventListener("click", clickAndGo);
 	
 	
 });//document.addEventListener
@@ -125,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function(){
 function getListAndRender(){
 	axios({
 		method: 'get', // put, post, delete
-		url: '/mysite6/api/board/comments',   //(데이터만 오는 친구들은 api를 붙일거임)
+		url: '${pageContext.request.contextPath}/api/board/comments',   //(데이터만 오는 친구들은 api를 붙일거임)
 		headers: {"Content-Type" : "application/json; charset=utf-8"}, //전송타입
 		//params: boardVo, //get방식 파라미터로 값이 전달
 		//data: boardVo, //put, post, delete 방식 자동으로 JSON으로 변환 전달
@@ -157,7 +160,7 @@ function render(boardVo, dir){
 	let str = '';
 	str += '		<tr>';
 	str += '			<td>'+boardVo.no+'</td>';
-	str += '			<td class="text-left"><a href="${pageContext.request.contextPath}/board/commentread?no='+boardVo.no+'">'+boardVo.title+'</a></td>';
+	str += '			<td class="text-left">'+boardVo.title+'</a></td>';
 	str += '			<td>'+boardVo.name+'</td>';
 	str += '			<td>'+boardVo.hit+'</td>';
 	str += '			<td>'+boardVo.regDate+'</td>';
@@ -170,6 +173,51 @@ function render(boardVo, dir){
 	} else if(dir == "up"){
 		boardListArea.insertAdjacentHTML("afterbegin", str);
 	}
+}
+
+function readPage(){
+	axios({
+		method: 'get', // put, post, delete
+		url: '${pageContext.request.contextPath}/api/board/comments/'+no,   //(데이터만 오는 친구들은 api를 붙일거임)
+		headers: {"Content-Type" : "application/json; charset=utf-8"}, //전송타입
+		params: boardVo, //get방식 파라미터로 값이 전달
+		//data: boardVo, //put, post, delete 방식 자동으로 JSON으로 변환 전달
+		responseType: 'json' //수신타입
+	})
+
+	.then(function (response) {
+		console.log(response.data); //수신데이타
+		
+		
+	})
+	.catch(function (error) {
+		console.log(error);
+	});
+}
+
+function clickAndGo(){
+	axios({
+		method: 'get', // put, post, delete
+		url: '${pageContext.request.contextPath}/api/board/comments/'+no,   //(데이터만 오는 친구들은 api를 붙일거임)
+		headers: {"Content-Type" : "application/json; charset=utf-8"}, //전송타입
+		params: boardVo, //get방식 파라미터로 값이 전달
+		//data: boardVo, //put, post, delete 방식 자동으로 JSON으로 변환 전달
+		responseType: 'json' //수신타입
+	})
+
+	.then(function (response) {
+		console.log(response.data); //수신데이타
+		
+		//리스트자리에 
+		//글을 하나씩 추가한다
+		for(let i=0; i<response.data.length; i++){
+			let boardVo = response.data[i];
+			render(boardVo, "up"); //1개의 글을 render()에게 전달 --> render() 리스트위치에 그린다
+		}
+	})
+	.catch(function (error) {
+		console.log(error);
+	});
 }
 
 </script>
