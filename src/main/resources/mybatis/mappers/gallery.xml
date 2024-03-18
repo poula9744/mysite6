@@ -18,5 +18,12 @@
 		]]>
 	</select>
 	
+	<!-- 이미지 등록 -->
+	<insert id="insert" parameterType="com.javaex.vo.GalleryVo">
+	<![CDATA[
+			insert into gallery
+			values(null, #{uesrNo}, #{content}, #{filePath}, #{orgName}, #{saveName}, #{fileSize})
+		]]>
+	</insert>
 	
 </mapper>

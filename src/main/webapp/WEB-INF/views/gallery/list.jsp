@@ -96,6 +96,7 @@
 							<c:forEach items="${requestScope.galleryList}" var="galleryVo">
 							<li>
 								<div class="view">
+									<input type="hidden" id="no" value="${galleryVo.no }">
 									<img class="imgItem" src="${pageContext.request.contextPath}/upload/${galleryVo.saveName}"">
 									<div class="imgWriter">
 										작성자: <strong>${galleryVo.name}</strong>
@@ -130,6 +131,7 @@
 				<div class="closeBtn">×</div>
 				<div class="m-header">이미지 등록</div>
 				<div class="m-body">
+					<input id="addModalContent" type="hidden" name="userNo" value="">
 					<div>
 						<label class="form-text">글작성</label> 
 						<input id="addModalContent" type="text" name="addContent" value="">
@@ -154,7 +156,7 @@
 			<div class="m-header">이미지보기</div>
 			<div class="m-body">
 				<div>
-					<img id="viewModelImg" src="">
+					<img id="viewModelImg" src="${pageContext.request.contextPath}/upload/${galleryVo.saveName}">
 					<!-- ajax로 처리 : 이미지출력 위치-->
 				</div>
 				<div>
@@ -173,7 +175,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	
 	//파일 선택 후 저장버튼을 클릭했을 때
 	let btnAdd = document.querySelector("#save");
-	btnAdd.addEventListener("click", );
+	btnAdd.addEventListener("click", addAndRender);
 	
 	//모달창 호출 버튼을 클릭했을 때
 	let btnImgUpload = document.querySelector("#btnImgUpload");
@@ -190,12 +192,45 @@ document.addEventListener("DOMContentLoaded", function(){
 
 //content, img 저장 
 function addAndRender(event){
-	console.log("글쓰기버튼 클릭");
+	console.log("저장버튼 클릭");
 	
-	event.preventDefault();
+	//event.preventDefault();
 	
 	//폼에 있는 데이터 가져오기
-	let no = document.querySelector
+	let userNo = document.querySelector("[name='userNo']").value;
+	let content = document.querySelector("[name='addContent']").value;
+	let img = document.querySelector("[name='addImg']").value; 
+	
+	let galleryVo = {
+			userNo: userNo,
+			content: content,
+			img: img
+	}
+	
+	//서버로 데이터 전송
+	axios({
+		method: 'post', // put, post, delete
+		url: '${pageContext.request.contextPath}/api/gallery',
+		headers: {"Content-Type" : "application/json; charset=utf-8"}, //전송타입
+		//params: galleryVo, //get방식 파라미터로 값이 전달
+		data: galleryVo, //put, post, delete 방식 자동으로 JSON으로 변환 전달
+		responseType: 'json' //수신타입
+		})
+	.then(function (response) {
+		//console.log(response);  //수신데이타
+
+		//그리기
+		render(response.data, "up");
+		
+		//비우기
+		document.querySelector("[name = 'userNo']").value="";
+		document.querySelector("[name = 'password']").value="";
+		document.querySelector("[name = 'content']").value="";
+		
+	})
+	.catch(function (error) {
+		console.log(error);
+	}); 
 	
 }
 

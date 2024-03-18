@@ -15,6 +15,16 @@ public class GalleryVo {
 	public GalleryVo() {
 		super();
 	}
+	
+	public GalleryVo(int userNo, String content, String filePath, String orgName, String saveName, long fileSize) {
+		super();
+		this.userNo = userNo;
+		this.content = content;
+		this.filePath = filePath;
+		this.orgName = orgName;
+		this.saveName = saveName;
+		this.fileSize = fileSize;
+	}
 
 	public GalleryVo(int no, int userNo, String content, String filePath, String orgName, String saveName,
 			long fileSize) {

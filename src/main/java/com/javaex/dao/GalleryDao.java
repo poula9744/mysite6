@@ -22,5 +22,11 @@ public class GalleryDao {
 		
 		return galleryList;
 	}
+
+	public int saveFile(GalleryVo galleryVo) {
+		System.out.println("GalleryDao.galleryList()");
+		int count = sqlSession.insert("gallery.insert", galleryVo);
+		return count;
+	}
 	
 }
