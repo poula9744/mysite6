@@ -18,7 +18,7 @@ public class ApiBoardController {
 
 	@Autowired
 	private BoardService boardService;
-
+	/*
 	//////////////////////////////////////////
 	// /ajax 댓글게시판 //
 	//////////////////////////////////////////
@@ -58,4 +58,5 @@ public class ApiBoardController {
 		BoardVo commentVo = boardService.exeCommentSelectOne(no);
 		return commentVo;
 	}
+	*/
 }
