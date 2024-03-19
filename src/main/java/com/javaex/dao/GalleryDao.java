@@ -26,7 +26,13 @@ public class GalleryDao {
 	public int saveFile(GalleryVo galleryVo) {
 		System.out.println("GalleryDao.galleryList()");
 		int count = sqlSession.insert("gallery.insert", galleryVo);
+		System.out.println(count);
 		return count;
 	}
 	
+	public int galleryDelete(GalleryVo galleryVo) {
+		System.out.println("GalleryDao.galleryDelete()");
+		int count = sqlSession.delete("gallery.delete", galleryVo);
+		return count;
+	}
 }

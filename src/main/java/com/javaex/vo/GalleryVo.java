@@ -11,11 +11,18 @@ public class GalleryVo {
 	private String saveName;
 	private long fileSize;
 	
+	private String name;
+	
 	//생성자
 	public GalleryVo() {
 		super();
 	}
 	
+	public GalleryVo(int no) {
+		super();
+		this.no = no;
+	}
+
 	public GalleryVo(int userNo, String content, String filePath, String orgName, String saveName, long fileSize) {
 		super();
 		this.userNo = userNo;
@@ -37,6 +44,22 @@ public class GalleryVo {
 		this.saveName = saveName;
 		this.fileSize = fileSize;
 	}
+	
+	
+
+	public GalleryVo(int no, int userNo, String content, String filePath, String orgName, String saveName,
+			long fileSize, String name) {
+		super();
+		this.no = no;
+		this.userNo = userNo;
+		this.content = content;
+		this.filePath = filePath;
+		this.orgName = orgName;
+		this.saveName = saveName;
+		this.fileSize = fileSize;
+		this.name = name;
+	}
+
 
 	//메소드 - g/s
 	public int getNo() {
@@ -94,6 +117,18 @@ public class GalleryVo {
 	public void setFileSize(long fileSize) {
 		this.fileSize = fileSize;
 	}
+	
+	
+
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 
 	//메소드 - 일반
 	@Override

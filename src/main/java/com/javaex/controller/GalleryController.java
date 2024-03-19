@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,7 +34,6 @@ public class GalleryController {
 	}
 	
 	//갤러리 이미지 등록
-	@ResponseBody
 	@RequestMapping(value="/gallery/upload", method =  RequestMethod.POST )
 	public String upload(@RequestParam(value="img", required = false) MultipartFile img, 
 										 @RequestParam(value="content") String content,  
@@ -41,7 +42,17 @@ public class GalleryController {
 		System.out.println("GalleryController.upload()");
 		String saveName = galleryService.exeUpload(img, content, userNo);
 		model.addAttribute("saveName", saveName);
-		return "gallery/list";
+		System.out.println(saveName);
+		return "redirect:/gallery/list";
+	}
+	
+	//갤러리 이미지 삭제
+	@ResponseBody
+	@RequestMapping(value="/api/gallerys/{no}", method = RequestMethod.DELETE)
+	public int delete(@PathVariable("no") int no, @ModelAttribute GalleryVo galleryVo) {
+		System.out.println("GalleryController.delete()");
+		int count = galleryService.exeDelete(galleryVo);
+		return count;
 	}
 	
 	

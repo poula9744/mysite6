@@ -47,6 +47,11 @@
 		font-weight: bold;
 		cursor: pointer;
 	}
+	
+	#viewModal #file{
+		width: 300px;
+		height: 200px;
+	}
 </style>
 </head>
 
@@ -83,25 +88,30 @@
 
 
 				<div id="gallery">
-					<div id="list">
+					<div id="list"> <!--  리스트 -->
 
 
-						<button id="btnImgUpload">이미지올리기</button>
+						<c:if test="${sessionScope.authUser.no != null}">
+							<button id="btnImgUpload">이미지올리기</button>
+						</c:if>
 						<div class="clear"></div>
 
 
 						<ul id="viewArea">
 
 							<!-- 이미지반복영역 -->
-							<c:forEach items="${requestScope.galleryList}" var="galleryVo">
+							<c:forEach items="${requestScope.galleryList}" var="galleryVo" varStatus="status">
 							<li>
 								<div class="view">
-									<input type="hidden" id="no" value="${galleryVo.no }">
-									<img class="imgItem" src="${pageContext.request.contextPath}/upload/${galleryVo.saveName}"">
+									<img class="imgItem" src="${pageContext.request.contextPath}/upload/${galleryVo.saveName}""
+												 data-no="${ galleryVo.no }" data-saveName="${ galleryVo.saveName }" data-userno="${ galleryVo.userNo }"
+														data-content="${ galleryVo.content }">
 									<div class="imgWriter">
 										작성자: <strong>${galleryVo.name}</strong>
 									</div>
+									<input type="hidden" id="no" value="${galleryVo.no }">
 								</div>
+								
 							</li>
 							</c:forEach>
 							<!-- 이미지반복영역 -->
@@ -127,11 +137,10 @@
 	<!-- 이미지등록 팝업(모달)창 -->
 	<div id="addModal" class="modal">
 		<div class="modal-content">
-			<form action="${pageContext.request.contextPath}/gallery/upload" method="post" enctype="multipart/form-data">
-				<div class="closeBtn">×</div>
+			<form action="${pageContext.request.contextPath}/gallery/upload?userNo=${authUser.no}" method="post" enctype="multipart/form-data">
+				<div class="closeAddBtn">×</div>
 				<div class="m-header">이미지 등록</div>
 				<div class="m-body">
-					<input id="addModalContent" type="hidden" name="userNo" value="">
 					<div>
 						<label class="form-text">글작성</label> 
 						<input id="addModalContent" type="text" name="content" value="">
@@ -152,11 +161,12 @@
 	<!-- 이미지보기 팝업(모달)창 -->
 	<div id="viewModal" class="modal">
 		<div class="modal-content">
-			<div class="closeBtn">×</div>
+			<div class="closeViewBtn">×</div>
 			<div class="m-header">이미지보기</div>
 			<div class="m-body">
 				<div>
-					<img id="viewModelImg" src="${pageContext.request.contextPath}/upload/${galleryVo.saveName}">
+					<img id="viewModelImg" src="">
+					<input type="hidden" id="m-no" name="no" value="">
 					<!-- ajax로 처리 : 이미지출력 위치-->
 				</div>
 				<div>
@@ -164,7 +174,10 @@
 				</div>
 			</div>
 			<div class="m-footer">
-				<button>삭제</button>
+				<c:if test="${sessionScope.authUser.no != null}">
+					<button class="btnDelete" id="btnDelete">삭제</button>
+				</c:if>
+				
 			</div>
 		</div>
 	</div>
@@ -172,86 +185,101 @@
 
 <script type="text/javascript">
 document.addEventListener("DOMContentLoaded", function(){
-	
-	//파일 선택 후 저장버튼을 클릭했을 때
-	let btnAdd = document.querySelector("#save");
-	btnAdd.addEventListener("click", addAndRender);
-	
+
 	//모달창 호출 버튼을 클릭했을 때
-	let btnImgUpload = document.querySelector("#btnImgUpload");
-	btnImgUpload.addEventListener("click", callModal);
+	let list = document.querySelector("#list");
+	list.addEventListener("click", callModal);
 	
-	//모달창 닫기 버튼(X) 클릭했을 때
-	let closeBtn = document.querySelector(".closeBtn");
-	closeBtn.addEventListener("click", closeModal);
+	//ADD모달창 닫기 버튼(X) 클릭했을 때
+	let closeAddBtn = document.querySelector(".closeAddBtn");
+	closeAddBtn.addEventListener("click", closeAddModal);
+	
+	//VIEW모달창 닫기 버튼(X) 클릭했을 때
+	let closeViewBtn = document.querySelector(".closeViewBtn");
+	closeViewBtn.addEventListener("click", closeVieweModal);
+	
+	//삭제모달창에 삭제버튼을 클릭했을때
+	let btnDelete = document.querySelector('#btnDelete');
+    btnDelete.addEventListener("click", deleteAndRemove);
 	
 });
 
 
 //함수
-
-//content, img 저장 
-function addAndRender(event){
-	console.log("저장버튼 클릭");
-	
-	//event.preventDefault();
-	
-	//폼에 있는 데이터 가져오기
-	let userNo = document.querySelector("[name='userNo']").value;
-	let content = document.querySelector("[name='content']").value;
-	let img = document.querySelector("[name='img']").value; 
-	
-	let galleryVo = {
-			userNo: userNo,
-			content: content,
-			img: img
-	}
-	
-	//서버로 데이터 전송
-	axios({
-		method: 'post', // put, post, delete
-		url: '${pageContext.request.contextPath}/api/gallery',
-		headers: {"Content-Type" : "application/json; charset=utf-8"}, //전송타입
-		//params: galleryVo, //get방식 파라미터로 값이 전달
-		data: galleryVo, //put, post, delete 방식 자동으로 JSON으로 변환 전달
-		responseType: 'json' //수신타입
-		})
-	.then(function (response) {
-		//console.log(response);  //수신데이타
-
-		//그리기
-		render(response.data, "up");
-		
-		//비우기
-		document.querySelector("[name = 'userNo']").value="";
-		document.querySelector("[name = 'password']").value="";
-		document.querySelector("[name = 'content']").value="";
-		
-	})
-	.catch(function (error) {
-		console.log(error);
-	}); 
-	
-}
-
-
 //모달창 부르기: 이미지 등록 누르면 창 열림
-function callModal(){
+function callModal(event){
+	console.log(event.target.tagName);
 	if(event.target.tagName == "BUTTON"){
 		//console.log("모달창 보이기");	
 		let modal = document.querySelector(".modal");
 		modal.style.display = "block";
+	} else if(event.target.tagName == "IMG"){
+		console.log("모달창 보이기");
+		let modal = document.querySelector("#viewModal");
+		modal.style.display = "block";
+		
+		let noTag = document.querySelector('[name="no"]');
+		noTag.value = event.target.dataset.no;
+		
+		let saveTag = document.querySelector('#viewModelImg');
+		saveTag.src = "${pageContext.request.contextPath}/upload/" + event.target.dataset.savename;
+		
+		let contentTag = document.querySelector('#viewModelContent');
+		contentTag.textContent = event.target.dataset.content;
+		
 	}
 	
 }
 //모달창 닫기 버튼(X) 클릭했을 때
-function closeModal(){
+function closeAddModal(){
 	console.log("클릭");
-	let modal = document.querySelector(".modal");
+	let modal = document.querySelector("#addModal");
+	modal.style.display = "none";
+}
+function closeVieweModal(){
+	console.log("클릭");
+	let modal = document.querySelector("#viewModal");
 	modal.style.display = "none";
 }
 
+
+//삭제
+function deleteAndRemove(){
+	console.log("삭제클릭");
 	
+	let no = document.querySelector("#m-no").value;
+	
+	let galleryVo = {
+			no: no
+	}
+	
+	 // 서버로 전송
+    axios({
+		method: 'delete', // put, post, delete 
+		url: '${pageContext.request.contextPath}/api/gallerys/'+no,
+		headers: {"Content-Type" : "application/json; charset=utf-8"}, //전송타입
+		params: galleryVo, //get방식 파라미터로 값이 전달
+		//data: galleryVo, //put, post, delete 방식 자동으로 JSON으로 변환 전달
+		
+		responseType: 'json' //수신타입
+	}).then(function (response) {
+		console.log(response);
+		console.log(response.data);
+		
+		if(response.data ==1){
+
+			let removeImage = document.querySelector(no);
+			
+			removeImage.remove();
+			
+		}
+		
+	}).catch(function (error) {
+		console.log(error);
+	}); 
+	
+	
+}
 	
 </script>
 

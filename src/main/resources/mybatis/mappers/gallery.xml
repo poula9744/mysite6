@@ -22,8 +22,16 @@
 	<insert id="insert" parameterType="com.javaex.vo.GalleryVo">
 	<![CDATA[
 			insert into gallery
-			values(null, #{uesrNo}, #{content}, #{filePath}, #{orgName}, #{saveName}, #{fileSize})
+			values(null, #{userNo}, #{content}, #{filePath}, #{orgName}, #{saveName}, #{fileSize})
 		]]>
 	</insert>
+	
+	<!-- 이미지 삭제 -->
+	<delete id="delete" parameterType="com.javaex.vo.GalleryVo">
+		<![CDATA[
+			delete from gallery
+			where no = #{ no }
+		]]>
+	</delete>
 	
 </mapper>

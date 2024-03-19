@@ -40,12 +40,13 @@ public class GalleryService {
 		String saveName = System.currentTimeMillis() + UUID.randomUUID().toString() + exName;
 		long fileSize = file.getSize();
 		String filePath = saveDir + "\\" + saveName;
+		System.out.println(filePath);
 		
 		//(1)파일 정보를 DB에 저장
 		GalleryVo galleryVo = new GalleryVo(userNo, content, filePath, orgName, saveName, fileSize);
 		System.out.println(galleryVo);
 		galleryDao.saveFile(galleryVo);
-		
+		System.out.println("DB저장완료");
 		//(2)파일을 하드디스크에 저장
 		try {
 			byte[] fileData = file.getBytes();
@@ -60,5 +61,11 @@ public class GalleryService {
 		}
 		
 		return saveName;
+	}
+	
+	public int exeDelete(GalleryVo galleryVo) {
+		System.out.println("GalleryService.exeDelete()");
+		int count = galleryDao.galleryDelete(galleryVo);
+		return count;
 	}
 }
