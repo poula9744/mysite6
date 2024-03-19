@@ -134,11 +134,11 @@
 					<input id="addModalContent" type="hidden" name="userNo" value="">
 					<div>
 						<label class="form-text">글작성</label> 
-						<input id="addModalContent" type="text" name="addContent" value="">
+						<input id="addModalContent" type="text" name="content" value="">
 					</div>
 					<div class="form-group">
 						<label class="form-text">이미지선택</label> 
-						<input id="file" type="file" name="addImg" value="">
+						<input id="file" type="file" name="img" value="">
 					</div>
 				</div>
 				<div class="m-footer">
@@ -198,8 +198,8 @@ function addAndRender(event){
 	
 	//폼에 있는 데이터 가져오기
 	let userNo = document.querySelector("[name='userNo']").value;
-	let content = document.querySelector("[name='addContent']").value;
-	let img = document.querySelector("[name='addImg']").value; 
+	let content = document.querySelector("[name='content']").value;
+	let img = document.querySelector("[name='img']").value; 
 	
 	let galleryVo = {
 			userNo: userNo,

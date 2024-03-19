@@ -34,7 +34,7 @@ public class GalleryController {
 	//갤러리 이미지 등록
 	@ResponseBody
 	@RequestMapping(value="/gallery/upload", method =  RequestMethod.POST )
-	public String upload(@RequestParam(value="img") MultipartFile img, 
+	public String upload(@RequestParam(value="img", required = false) MultipartFile img, 
 										 @RequestParam(value="content") String content,  
 										 @RequestParam(value="userNo") int userNo, 
 										 Model model) {
